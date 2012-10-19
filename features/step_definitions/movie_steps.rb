@@ -2,7 +2,7 @@
 
 Given /the following movies exist/ do |movies_table|
   movies_table.hashes.each do |movie|
-     Fabricate(:movie, movie)
+     Movie.create(movie)
   end
 end
 
@@ -10,7 +10,7 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
-  page.text =~ /#{e1}.*?#{e2}/
+  page.text.should =~ /.*#{e1}.*#{e2}/m
 end
 
 When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
