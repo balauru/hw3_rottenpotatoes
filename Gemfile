@@ -7,6 +7,8 @@ gem 'rails', '3.1.0'
 
 group :development do
   gem 'guard'
+  gem 'spork'
+  gem 'guard-spork'
   gem 'guard-cucumber'
 end
 
@@ -19,11 +21,13 @@ group :development, :test do
   gem 'capybara'
   gem 'launchy'
 end
+
 group :test do
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'
   gem 'fabrication'
 end
+
 group :production do
 #  gem 'pg'
 end
