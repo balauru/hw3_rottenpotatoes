@@ -38,3 +38,9 @@ Scenario: all ratings selected
   And I press "Refresh"
   Then I should see all movies
 
+Scenario: restricted movie ratings should be remembered
+  Given I check the following ratings: PG, R
+  And I press "Refresh"
+  And I follow "More about The Terminator"
+  And I follow "Back to movie list"
+  Then I should see /The Terminator|When Harry Met Sally|Amelie|The Incredibles|Raiders of the Lost Ark/
