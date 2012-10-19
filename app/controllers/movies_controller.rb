@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    url = Rails.application.routes.recognize_path(request.referer || request.url)
+    url = request.referer ? Rails.application.routes.recognize_path(request.referer) : { :controller => "movies", :action => "some_action" }
 
     controller = url[:controller]
     action = url[:action]
