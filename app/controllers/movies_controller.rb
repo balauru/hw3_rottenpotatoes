@@ -7,25 +7,32 @@ class MoviesController < ApplicationController
   end
 
   def index
+    url = Rails.application.routes.recognize_path(request.referer || request.url)
+
+    controller = url[:controller]
+    action = url[:action]
+
     sort = params[:sort] || session[:sort]
+    ordering = {}
+
     case sort
-    when 'title'
-      ordering,@title_header = {:order => :title}, 'hilite'
-    when 'release_date'
-      ordering,@date_header = {:order => :release_date}, 'hilite'
+      when 'title'
+        ordering, @title_header = {:order => :title}, 'hilite'
+      when 'release_date'
+        ordering, @date_header = {:order => :release_date}, 'hilite'
+      else
+        # type code here
     end
+
     @all_ratings = Movie.all_ratings
-    @selected_ratings = params[:ratings] || session[:ratings] || {}
-    
-    if @selected_ratings == {}
-      @selected_ratings = Hash[@all_ratings.map {|rating| [rating, rating]}]
-    end
-    
+    # we only care for session when we come from somewhere else
+    @selected_ratings = (controller == "movies" && action != "index") ? session[:ratings] || Hash[@all_ratings.map {|rating| [rating, rating]}] : params[:ratings] || {}
+
     if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
       session[:sort] = sort
       session[:ratings] = @selected_ratings
-      redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
+
     @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
   end
 
