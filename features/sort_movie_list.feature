@@ -29,3 +29,9 @@ Scenario: sort movies in increasing order of release date
   When I follow "Release Date"
   Then I should see "2001: A Space Odyssey" before "Raiders of the Lost Ark"
 
+Scenario: sort should be remembered when navigating back
+  When I follow "Release Date"
+  And I follow "More about 2001: A Space Odyssey"
+  And I follow "Back to movie list"
+  Then I should see "2001: A Space Odyssey" before "Raiders of the Lost Ark"
+
